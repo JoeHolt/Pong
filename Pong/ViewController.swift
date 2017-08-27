@@ -33,5 +33,10 @@ class ViewController: NSViewController {
             view.showsNodeCount = true
         }
     }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window?.styleMask.remove(.resizable)
+    }
 }
 

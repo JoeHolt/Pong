@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		69F8AB371F5348E600EED605 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB361F5348E600EED605 /* AppDelegate.swift */; };
 		69F8AB391F5348E600EED605 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB381F5348E600EED605 /* GameScene.sks */; };
-		69F8AB3B1F5348E600EED605 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB3A1F5348E600EED605 /* Actions.sks */; };
 		69F8AB3D1F5348E600EED605 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB3C1F5348E600EED605 /* GameScene.swift */; };
 		69F8AB3F1F5348E600EED605 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB3E1F5348E600EED605 /* ViewController.swift */; };
 		69F8AB411F5348E600EED605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB401F5348E600EED605 /* Assets.xcassets */; };
 		69F8AB441F5348E600EED605 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB421F5348E600EED605 /* Main.storyboard */; };
 		69F8AB501F5348E600EED605 /* PongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB4F1F5348E600EED605 /* PongTests.swift */; };
+		69F8AB5B1F534AA200EED605 /* BouncyBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB5A1F534AA200EED605 /* BouncyBall.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,6 @@
 		69F8AB331F5348E600EED605 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69F8AB361F5348E600EED605 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69F8AB381F5348E600EED605 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		69F8AB3A1F5348E600EED605 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		69F8AB3C1F5348E600EED605 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		69F8AB3E1F5348E600EED605 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		69F8AB401F5348E600EED605 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,6 +40,7 @@
 		69F8AB4B1F5348E600EED605 /* PongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PongTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69F8AB4F1F5348E600EED605 /* PongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongTests.swift; sourceTree = "<group>"; };
 		69F8AB511F5348E600EED605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69F8AB5A1F534AA200EED605 /* BouncyBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BouncyBall.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,9 +84,9 @@
 			children = (
 				69F8AB361F5348E600EED605 /* AppDelegate.swift */,
 				69F8AB381F5348E600EED605 /* GameScene.sks */,
-				69F8AB3A1F5348E600EED605 /* Actions.sks */,
 				69F8AB3C1F5348E600EED605 /* GameScene.swift */,
 				69F8AB3E1F5348E600EED605 /* ViewController.swift */,
+				69F8AB5C1F534AA500EED605 /* Model */,
 				69F8AB401F5348E600EED605 /* Assets.xcassets */,
 				69F8AB421F5348E600EED605 /* Main.storyboard */,
 				69F8AB451F5348E600EED605 /* Info.plist */,
@@ -102,6 +102,14 @@
 				69F8AB511F5348E600EED605 /* Info.plist */,
 			);
 			path = PongTests;
+			sourceTree = "<group>";
+		};
+		69F8AB5C1F534AA500EED605 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				69F8AB5A1F534AA200EED605 /* BouncyBall.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,7 +197,6 @@
 			files = (
 				69F8AB391F5348E600EED605 /* GameScene.sks in Resources */,
 				69F8AB411F5348E600EED605 /* Assets.xcassets in Resources */,
-				69F8AB3B1F5348E600EED605 /* Actions.sks in Resources */,
 				69F8AB441F5348E600EED605 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +217,7 @@
 			files = (
 				69F8AB3F1F5348E600EED605 /* ViewController.swift in Sources */,
 				69F8AB3D1F5348E600EED605 /* GameScene.swift in Sources */,
+				69F8AB5B1F534AA200EED605 /* BouncyBall.swift in Sources */,
 				69F8AB371F5348E600EED605 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
