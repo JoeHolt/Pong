@@ -14,7 +14,7 @@
 		69F8AB411F5348E600EED605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB401F5348E600EED605 /* Assets.xcassets */; };
 		69F8AB441F5348E600EED605 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69F8AB421F5348E600EED605 /* Main.storyboard */; };
 		69F8AB501F5348E600EED605 /* PongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB4F1F5348E600EED605 /* PongTests.swift */; };
-		69F8AB5B1F534AA200EED605 /* BouncyBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB5A1F534AA200EED605 /* BouncyBall.swift */; };
+		69F8AB601F534EB200EED605 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F8AB5F1F534EB200EED605 /* GameObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +40,7 @@
 		69F8AB4B1F5348E600EED605 /* PongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PongTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69F8AB4F1F5348E600EED605 /* PongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PongTests.swift; sourceTree = "<group>"; };
 		69F8AB511F5348E600EED605 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69F8AB5A1F534AA200EED605 /* BouncyBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BouncyBall.swift; sourceTree = "<group>"; };
+		69F8AB5F1F534EB200EED605 /* GameObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 		69F8AB5C1F534AA500EED605 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				69F8AB5A1F534AA200EED605 /* BouncyBall.swift */,
+				69F8AB5F1F534EB200EED605 /* GameObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,7 +217,7 @@
 			files = (
 				69F8AB3F1F5348E600EED605 /* ViewController.swift in Sources */,
 				69F8AB3D1F5348E600EED605 /* GameScene.swift in Sources */,
-				69F8AB5B1F534AA200EED605 /* BouncyBall.swift in Sources */,
+				69F8AB601F534EB200EED605 /* GameObject.swift in Sources */,
 				69F8AB371F5348E600EED605 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
