@@ -11,9 +11,15 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    enum GameMode {
+        case Single
+        case Multi
+    }
+    
     private let gridSize: Int       = 40    //Size of game grid
     private let updateGameBall: Int = 05    //Update game every x frames
     private let updateBump: Int     = 04    //Update speed for right bumper
+    private var gameMode: GameMode  = .Multi //Game mode of game
     private var scoreLabel: SKLabelNode!    //Score label
     private var ball: GameObject!           //Ball
     private var lBumper: GameObject!        //Left bumper
@@ -51,7 +57,9 @@ class GameScene: SKScene {
             updateBall()
         }
         if frameCounter % updateBump == 0 {
-            updateAIBumperSpeed()
+            if gameMode == .Single {
+                updateAIBumperSpeed()
+            }
             updateBumper(lBumper)
             updateBumper(rBumper)
         }
@@ -64,29 +72,51 @@ class GameScene: SKScene {
     
     private func handleKeyEvent(event: NSEvent) {
         let charachters = event.characters
-        for char in charachters! {
-            switch char {
-            case "w":
-                if lBumper.speed.y != 1 {
-                    lBumper.body.reverse()
-                    lBumper.posistion = lBumper.body.first
+        if event.modifierFlags.contains(NSEvent.ModifierFlags.numericPad) {
+            if let theArrow = event.charactersIgnoringModifiers, let keyChar = theArrow.unicodeScalars.first?.value {
+                if gameMode == .Multi {
+                    switch Int(keyChar) {
+                    case NSUpArrowFunctionKey:
+                        if rBumper.speed.y != 1 {
+                            rBumper.body.reverse()
+                            rBumper.posistion = rBumper.body.first
+                        }
+                        rBumper.speed = CGPoint(x: 0, y: 1)
+                    case NSDownArrowFunctionKey:
+                        if rBumper.speed.y != -1 {
+                            rBumper.body.reverse()
+                            rBumper.posistion = rBumper.body.first
+                        }
+                        rBumper.speed = CGPoint(x: 0, y: -1)
+                    default:
+                        break
+                    }
                 }
-                lBumper.speed = CGPoint(x: 0, y: 1)
-            case "s":
-                if lBumper.speed.y != -1 {
-                    lBumper.body.reverse()
-                    lBumper.posistion = lBumper.body.first
+            }
+        } else {
+            for char in charachters! {
+                switch char {
+                case "w":
+                    if lBumper.speed.y != 1 {
+                        lBumper.body.reverse()
+                        lBumper.posistion = lBumper.body.first
+                    }
+                    lBumper.speed = CGPoint(x: 0, y: 1)
+                case "s":
+                    if lBumper.speed.y != -1 {
+                        lBumper.body.reverse()
+                        lBumper.posistion = lBumper.body.first
+                    }
+                    lBumper.speed = CGPoint(x: 0, y: -1)
+                case " ":
+                    if self.scene?.view?.isPaused == true {
+                        self.scene?.view?.isPaused = false
+                    } else {
+                        self.scene?.view?.isPaused = true
+                    }
+                default:
+                    lBumper.speed = CGPoint(x: 0, y: 0)
                 }
-                lBumper.speed = CGPoint(x: 0, y: -1)
-                
-            case " ":
-                if self.scene?.view?.isPaused == true {
-                    self.scene?.view?.isPaused = false
-                } else {
-                    self.scene?.view?.isPaused = true
-                }
-            default:
-                lBumper.speed = CGPoint(x: 0, y: 0)
             }
         }
     }
