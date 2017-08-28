@@ -12,9 +12,11 @@ import GameplayKit
 class GameScene: SKScene {
     
     private let gridSize: Int       = 40    //Size of game grid
-    private let updateGame: Int     = 15    //Update game every x frames
+    private let updateGameBall: Int = 05    //Update game every x frames
+    private let updateBump: Int     = 04    //Update speed for right bumper
     private var ball: GameObject!           //Ball
     private var lBumper: GameObject!        //Left bumper
+    private var rBumper: GameObject!        //Right bumper
     private var mainView: SKView!           //Mainview
     private var frameCounter: Int   = 0     //Current frame
     private var gridBounds: CGFloat {
@@ -26,18 +28,22 @@ class GameScene: SKScene {
         self.mainView = view
         self.ball = GameObject(CGSize(width: 1.0, height: 1.0), initialPosistion: CGPoint(x: -15, y: 0), initialSpeed: CGPoint(x: 1, y: 1))
         self.lBumper = GameObject(CGSize(width: 1.0, height: 4.0), initialPosistion: CGPoint(x: -gridBounds + 2, y: 0), initialSpeed: CGPoint(x: 0, y: -1))
-        drawBumper()
+        self.rBumper = GameObject(CGSize(width: 1.0, height: 4.0), initialPosistion: CGPoint(x: gridBounds - 2, y: 0), initialSpeed: CGPoint(x: 0, y: -1))
+        drawBumper(lBumper)
+        drawBumper(rBumper)
     }
     
     
     override func update(_ currentTime: TimeInterval) {
-        if frameCounter == updateGame {
-            updateBumpers()
+        if frameCounter % updateGameBall == 0 {
             updateBall()
-            frameCounter = 0
-        } else {
-            frameCounter += 1
         }
+        if frameCounter % updateBump == 0 {
+            updateAIBumperSpeed()
+            updateBumper(lBumper)
+            updateBumper(rBumper)
+        }
+        frameCounter += 1
     }
     
     override func keyDown(with event: NSEvent) {
@@ -74,20 +80,40 @@ class GameScene: SKScene {
         }
     }
     
-    private func updateBumpers() {
-        let gridBound = self.gridBounds - (self.gridBounds * 0.1)   //Makes the grid line up with the window better
-        if lBumper.speed.y != 0 && lBumper.posistion.y < gridBound && lBumper.posistion.y > -gridBound {
-            let newPos = CGPoint(x: lBumper.posistion.x, y: lBumper.posistion.y + lBumper.speed.y)
-            lBumper.posistion = newPos
-            lBumper.body.insert(newPos, at: 0)
-            removeSquare(x: Int((lBumper.body.last?.x)!), y: Int((lBumper.body.last?.y)!))
-            lBumper.body.remove(at: lBumper.body.count-1)
-            drawBumper()
+    private func updateAIBumperSpeed() {
+        //Set speed based on ball
+        let midPos = rBumper.body.last!
+        if midPos.y > ball.posistion.y {
+            if rBumper.speed.y != -1 {
+                rBumper.body.reverse()
+                rBumper.posistion = rBumper.body.first
+            }
+            rBumper.speed = CGPoint(x: 0, y: -1)
+        } else {
+            if rBumper.speed.y != 1 {
+                rBumper.body.reverse()
+                rBumper.posistion = rBumper.body.first
+            }
+            rBumper.speed = CGPoint(x: 0, y: 1)
         }
     }
     
-    private func drawBumper() {
-        for pos in lBumper.body {
+    private func updateBumper(_ bumper: GameObject) {
+        let gridBound = self.gridBounds - (self.gridBounds * 0.1)   //Makes the grid line up with the window better
+        //Left user bumper
+        if bumper.speed.y != 0 && bumper.posistion.y < gridBound && bumper.posistion.y > -gridBound {
+            let newPos = CGPoint(x: bumper.posistion.x, y: bumper.posistion.y + bumper.speed.y)
+            print(bumper.speed)
+            bumper.posistion = newPos
+            bumper.body.insert(newPos, at: 0)
+            removeSquare(x: Int((bumper.body.last?.x)!), y: Int((bumper.body.last?.y)!))
+            bumper.body.remove(at: bumper.body.count-1)
+            drawBumper(bumper)
+        }
+    }
+    
+    private func drawBumper(_ bumper: GameObject) {
+        for pos in bumper.body {
             drawSquare(x: Int(pos.x), y: Int(pos.y), color: SKColor.purple)
         }
     }
@@ -97,11 +123,9 @@ class GameScene: SKScene {
         var newBallPosistion = CGPoint(x: ball.posistion.x + ball.speed.x, y: ball.posistion.y + ball.speed.y)
         //Check if it is within view bounds and update speed if it is
         let gridBound = self.gridBounds - (self.gridBounds * 0.1)   //Makes the grid line up with the window better
-        if newBallPosistion.x > gridBound {
-            ball.speed.x = -1
-        }
-        if newBallPosistion.x < -gridBound {
-            ball.speed.x = 1
+        if newBallPosistion.x > gridBound || newBallPosistion.x < -gridBound {
+            newBallPosistion = CGPoint(x: 0, y: 0)
+            ball.speed = CGPoint(x: 1, y: 1)
         }
         if newBallPosistion.y > gridBound {
             ball.speed.y = -1
@@ -110,7 +134,7 @@ class GameScene: SKScene {
             ball.speed.y = 1
         }
         //Check if ball is about to hit bumper and act accorgingly
-        if lBumper.body.contains(newBallPosistion) {
+        if lBumper.body.contains(newBallPosistion) || rBumper.body.contains(newBallPosistion) {
             ball.speed.x *= -1
             newBallPosistion = CGPoint(x: ball.posistion.x + ball.speed.x, y: ball.posistion.y + ball.speed.y)
         }
