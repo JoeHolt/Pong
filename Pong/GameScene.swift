@@ -14,13 +14,19 @@ class GameScene: SKScene {
     private let gridSize: Int       = 40    //Size of game grid
     private let updateGameBall: Int = 05    //Update game every x frames
     private let updateBump: Int     = 04    //Update speed for right bumper
+    private var scoreLabel: SKLabelNode!    //Score label
     private var ball: GameObject!           //Ball
     private var lBumper: GameObject!        //Left bumper
     private var rBumper: GameObject!        //Right bumper
     private var mainView: SKView!           //Mainview
     private var frameCounter: Int   = 0     //Current frame
-    private var gridBounds: CGFloat {
+    private var gridBounds: CGFloat {       //Bounds of grid
         return CGFloat(gridSize/2)
+    }
+    private var score: Int = 0 {            //Score of game
+        didSet {
+            scoreLabel.text = String(score)
+        }
     }
 
     
@@ -29,6 +35,12 @@ class GameScene: SKScene {
         self.ball = GameObject(CGSize(width: 1.0, height: 1.0), initialPosistion: CGPoint(x: -15, y: 0), initialSpeed: CGPoint(x: 1, y: 1))
         self.lBumper = GameObject(CGSize(width: 1.0, height: 4.0), initialPosistion: CGPoint(x: -gridBounds + 2, y: 0), initialSpeed: CGPoint(x: 0, y: -1))
         self.rBumper = GameObject(CGSize(width: 1.0, height: 4.0), initialPosistion: CGPoint(x: gridBounds - 2, y: 0), initialSpeed: CGPoint(x: 0, y: -1))
+        self.scoreLabel = SKLabelNode(text: "0")
+        self.scoreLabel.fontSize = 500
+        self.scoreLabel.alpha = 0.5
+        self.scoreLabel.fontName = "Munro"
+        self.scoreLabel.position = CGPoint(x: frame.midX, y: frame.midY-150)
+        addChild(scoreLabel)
         drawBumper(lBumper)
         drawBumper(rBumper)
     }
@@ -51,7 +63,6 @@ class GameScene: SKScene {
     }
     
     private func handleKeyEvent(event: NSEvent) {
-        //print("Key pressed")
         let charachters = event.characters
         for char in charachters! {
             switch char {
@@ -103,7 +114,6 @@ class GameScene: SKScene {
         //Left user bumper
         if bumper.speed.y != 0 && bumper.posistion.y < gridBound && bumper.posistion.y > -gridBound {
             let newPos = CGPoint(x: bumper.posistion.x, y: bumper.posistion.y + bumper.speed.y)
-            print(bumper.speed)
             bumper.posistion = newPos
             bumper.body.insert(newPos, at: 0)
             removeSquare(x: Int((bumper.body.last?.x)!), y: Int((bumper.body.last?.y)!))
@@ -125,6 +135,7 @@ class GameScene: SKScene {
         let gridBound = self.gridBounds - (self.gridBounds * 0.1)   //Makes the grid line up with the window better
         if newBallPosistion.x > gridBound || newBallPosistion.x < -gridBound {
             newBallPosistion = CGPoint(x: 0, y: 0)
+            score = 0
             ball.speed = CGPoint(x: 1, y: 1)
         }
         if newBallPosistion.y > gridBound {
@@ -136,6 +147,7 @@ class GameScene: SKScene {
         //Check if ball is about to hit bumper and act accorgingly
         if lBumper.body.contains(newBallPosistion) || rBumper.body.contains(newBallPosistion) {
             ball.speed.x *= -1
+            score += 1
             newBallPosistion = CGPoint(x: ball.posistion.x + ball.speed.x, y: ball.posistion.y + ball.speed.y)
         }
         drawSquare(x: Int(newBallPosistion.x), y: Int(newBallPosistion.y))
@@ -159,7 +171,9 @@ class GameScene: SKScene {
         let yDim = (mainView.frame.size.height/CGFloat(gridSize)) * CGFloat(y)
         let nodesAtPoint = nodes(at: CGPoint(x: xDim, y: yDim))
         for node in nodesAtPoint {
-            node.removeFromParent()
+            if node is SKLabelNode {} else {
+                node.removeFromParent()
+            }
         }
     }
     
